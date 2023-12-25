@@ -1,15 +1,22 @@
 "use client";
 import styles from "./inputField.module.css";
-import React from "react";
+import React, { useState } from "react";
 
 export function InputField({
-  inputRef,
+  callback,
 }: {
-  inputRef: React.RefObject<HTMLInputElement>;
+  callback: (value: string) => void;
 }) {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    callback(e?.target?.value);
+  };
   return (
     <div className={styles.inputContainer}>
-      <input autoFocus ref={inputRef} className={styles.input} />
+      <input
+        onChange={(e) => handleInputChange(e)}
+        autoFocus
+        className={styles.input}
+      />
     </div>
   );
 }

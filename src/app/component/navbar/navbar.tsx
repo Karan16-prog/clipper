@@ -1,7 +1,12 @@
+import { Session, getServerSession } from "next-auth";
 import { AddLink } from "../add/addLink";
 import { SignOutBtn } from "../button/button";
 import styles from "./navbar.module.css";
-export default function NavBar() {
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+export default async function NavBar() {
+  const session = await getServerSession(authOptions);
+  console.log("Session:", session);
+
   return (
     <div className={styles.container}>
       <div className={styles.navContainer}>
@@ -16,10 +21,11 @@ export default function NavBar() {
               flexGrow: 1,
             }}
           >
-            <AddLink />
+            <AddLink session={session} />
           </div>
 
           <div>
+            <div>{`Hi ${session?.user?.name}`}</div>
             <SignOutBtn />
           </div>
         </nav>
