@@ -1,7 +1,6 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { chdir } from "process";
 
 export default function AuthCheck({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
