@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import CardWrapper from "./component/card/cardWrapper";
 import NavBar from "./component/navbar/navbar";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import styles from "./page.module.css";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -13,9 +14,7 @@ export default async function Home() {
 
   return (
     <>
-      <NavBar />
-
-      <main>
+      <main className={styles.main}>
         <CardWrapper cardData={cardData} />
       </main>
     </>

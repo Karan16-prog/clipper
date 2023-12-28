@@ -5,15 +5,14 @@ import styles from "./navbar.module.css";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function NavBar() {
   const session = await getServerSession(authOptions);
-  console.log("Session:", session);
-
+  console.log(session);
   return (
     <div className={styles.container}>
       <div className={styles.navContainer}>
         <nav>
-          <div>
+          <div style={{ padding: "16px 0px 16px 0px" }}>
             {/* logo */}
-            <span>Logo</span>
+            <p style={{ fontSize: "28px", margin: "0px" }}>Cluster</p>
           </div>
 
           <div
@@ -22,11 +21,6 @@ export default async function NavBar() {
             }}
           >
             <AddLink session={session} />
-          </div>
-
-          <div>
-            <div>{`Hi ${session?.user?.name}`}</div>
-            <SignOutBtn />
           </div>
         </nav>
       </div>

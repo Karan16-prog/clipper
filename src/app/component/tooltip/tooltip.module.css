@@ -1,0 +1,30 @@
+
+.customTooltipContainer {
+    position: relative;
+    display: block;
+    /* Add any other styles you want */
+}
+
+.customTooltip {
+    position: absolute;
+    /* background-color: #333;
+    color: #fff; */
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 1;
+    padding: 8px;
+    border: 1px solid var(--border-color-primary);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    top: 30px;
+    /* bottom: calc(100% + 8px); */
+    /* Additional styling for the tooltip */
+}
+
+
+ /* padding: 10px;
+ border: 1px solid var(--text-primary); */

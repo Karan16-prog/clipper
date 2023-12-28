@@ -1,12 +1,63 @@
 .button{
     text-align: center;
-    font-size: 32px;
+    font-size: 24px;
     width: 40px;
     height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     float: right;
+    cursor: pointer;
 }
 
+.button p{
+    position: relative;
+    bottom: 2px;
+}
 
+/* .closeIcon{
+    color: red;
+} */
+
+
+.btn {
+    background-color: transparent;
+    min-width: 50px;
+    border: 1px solid var(--border-color-primary);
+    padding: 6px;
+    border-radius: 8px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover{
+    background-color: var(--text-hover);
+}
+
+.buttonAdd{
+    text-align: center;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
+    cursor: pointer;
+}
+
+.buttonAdd svg:hover{
+    stroke: var(--text-hover);
+    /* background-color: red !important; */
+}
+
+.button svg:hover{
+    stroke: var(--text-hover);
+}
+
+.navFooter {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+}

@@ -1,19 +1,22 @@
 import styles from "./card.module.css";
-import Cat from "../../../public/cat.jpeg";
-import Image from "next/image";
 import { ICard } from "./cardWrapper";
+import PlaceholderImage from "../placeholderImage/placeholderImage";
+import { More } from "grommet-icons";
 
 export default function Card(props: ICard) {
   return (
     <div className={styles.cardContainer}>
       <div className={styles.cardHeader}>
         <div>
-          <img
+          {/* <img
             alt="Article Image"
-            src={"/cat.jpeg"}
+            src={props.image}
             className={styles.image}
-            style={{ objectFit: "cover" }}
-          />
+            // style={{ objectFit: "cover" }}
+            // onError={handleImageError}
+          /> */}
+          <PlaceholderImage initial="H" />
+          {/* {!imageRendered && <div>Could Not load image</div>} */}
         </div>
       </div>
       <div className={styles.cardContent}>
@@ -22,7 +25,10 @@ export default function Card(props: ICard) {
 
       <div className={styles.cardFooter}>
         <h5>{props.link}</h5>
+        <More color="var(--text-primary)" />
       </div>
     </div>
   );
 }
+
+// Make image height and width consistent

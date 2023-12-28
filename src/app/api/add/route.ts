@@ -4,6 +4,10 @@ import { prisma } from "@/app/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
+import axios from "axios";
+import * as cheerio from "cheerio";
+
+// const cheerio = require("cheerio");
 
 export async function GET(req: Request, res: Response) {
   const session = await getServerSession(authOptions);
@@ -42,30 +46,72 @@ export async function GET(req: Request, res: Response) {
   }
 }
 
-export async function POST(req: Request, res: Response) {
-  const session = await getServerSession(authOptions);
-
-  if (session?.user) {
-    return NextResponse.json(
-      {
-        message: "Unauthorized",
-      },
-      {
-        status: 401,
-      }
-    );
+const fetchWebContent = async (url: string) => {
+  try {
+    const response = await axios.get(url);
+    return response?.data;
+  } catch (err) {
+    return null;
   }
+};
+
+const isArticle = (htmlContent: string) => {
+  // <meta data-rh="true" property="og:type" content="article"/>
+  const $ = cheerio.load(htmlContent);
+  const jsonLD = $('script[type="application/ld+json"]').text();
+
+  if (jsonLD) {
+    const data = JSON.parse(jsonLD);
+    const isArticleType = data["@type"] === "Article";
+    return isArticleType;
+  }
+  return false;
+};
+
+export async function POST(req: Request, res: Response) {
+  // const session = await getServerSession(authOptions);
+
+  // if (!session?.user) {
+  //   return NextResponse.json(
+  //     {
+  //       message: "Unauthorized",
+  //     },
+  //     {
+  //       status: 401,
+  //     }
+  //   );
+  // }
 
   // const { id } = await req.json();
   const user = await prisma.user.findUnique({
     where: {
-      id: session?.user?.id,
+      //  id: session?.user?.id,
+      id: "clqkzvh7j0000xwwxtlgm6cn4",
     },
   });
   if (user) {
+    const { url } = await req.json();
+    const htmlContent = await fetchWebContent(url);
+
+    if (!htmlContent) {
+      return NextResponse.json(
+        {
+          message: "Error",
+          data: htmlContent,
+        },
+        {
+          status: 502,
+        }
+      );
+    }
+
+    console.log(htmlContent);
+
+    let articleFlag = isArticle(htmlContent);
+
     const dataA = {
       isValidLink: true,
-      isArticle: true,
+      isArticle: articleFlag,
       img: "",
       title: "Test 6969",
       link: "https://youtube.com",
@@ -109,3 +155,9 @@ export async function POST(req: Request, res: Response) {
 //               Highlight feature
 // 4. Phase 3 :- Recommend articles (algorithm)
 // 5. Phase 4 :-
+
+// clqkzvh7j0000xwwxtlgm6cn4
+
+// meta content article => isArticle
+// need to learn semantic html
+//

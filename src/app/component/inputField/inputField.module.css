@@ -1,14 +1,19 @@
 .inputContainer{
-   height: 38px;
-   border: 1px solid seashell;
+   height: 45px;
+   border: 1px solid var(--border-color-primary);
    display: flex;
    align-items: center;
    width: 100%;
    border-radius: 10px;
+   background-color: var(--card-background);
 }
 
-.inputContainer:focus{
-    border: 1px solid seagreen;
+/* .inputContainer:hover{
+    border: 3px solid var(--text-hover);
+} */
+
+.focused{
+    border: 3px solid var(--text-hover);
 }
 
 .input{
@@ -21,7 +26,7 @@
 }
 
 .input:focus{
-    border: 1px solid seagreen;
-    border-radius: 10px;
-    outline: green;
+    /* border: 1px solid var(--text-hover); */
+    /* border-radius: 10px; */
+    outline: none;
 }

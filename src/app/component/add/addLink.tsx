@@ -6,6 +6,10 @@ import styles from "./addLink.module.css";
 import { useRef } from "react";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
+import { FormClose } from "grommet-icons";
+import { Add } from "grommet-icons";
+import CustomTooltip from "../tooltip/tooltip";
+import { SignOutBtn } from "../button/button";
 
 export function AddLink({ session }: { session: Session | null }) {
   const [toggle, setToggle] = useState(false);
@@ -20,7 +24,6 @@ export function AddLink({ session }: { session: Session | null }) {
   };
 
   const addLink = async () => {
-    console.log(session);
     handleToggle();
     router.refresh();
 
@@ -39,17 +42,40 @@ export function AddLink({ session }: { session: Session | null }) {
     <>
       {toggle ? (
         <>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+
+              alignItems: "center",
+              columnGap: "20px",
+            }}
+          >
             <InputField callback={updateInputValue} />
-            <button onClick={addLink}>Add</button>
+            <button className={styles.btn} onClick={addLink}>
+              Add
+            </button>
             <div className={styles.button} onClick={handleToggle}>
-              <span>x</span>
+              <CustomTooltip text={"Cancel Here"}>
+                <FormClose size="30px" color="var(--text-primary)" />
+              </CustomTooltip>
             </div>
           </div>
         </>
       ) : (
-        <div className={styles.button} onClick={handleToggle}>
-          <span>+</span>
+        <div style={{ display: "flex", alignItems: "center", float: "right" }}>
+          <div className={styles.buttonAdd} onClick={handleToggle}>
+            <CustomTooltip text={"Save A URL"}>
+              <Add size="22px" color="var(--text-primary)" />
+            </CustomTooltip>
+          </div>
+          {session?.user && (
+            <div className={styles.navFooter}>
+              <p
+                style={{ fontSize: "18px", margin: "0px" }}
+              >{`Hi ${session?.user?.name}`}</p>
+              <SignOutBtn />
+            </div>
+          )}
         </div>
       )}
     </>
