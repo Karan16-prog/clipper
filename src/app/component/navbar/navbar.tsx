@@ -5,7 +5,7 @@ import styles from "./navbar.module.css";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function NavBar() {
   const session = await getServerSession(authOptions);
-  console.log(session);
+  // console.log(session);
   return (
     <div className={styles.container}>
       <div className={styles.navContainer}>

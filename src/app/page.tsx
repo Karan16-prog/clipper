@@ -15,6 +15,7 @@ export default async function Home() {
   return (
     <>
       <main className={styles.main}>
+        {JSON.stringify(session)}
         <CardWrapper cardData={cardData} />
       </main>
     </>

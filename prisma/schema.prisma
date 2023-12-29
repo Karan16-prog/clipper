@@ -64,12 +64,14 @@ model VerificationToken {
 
 model Article {
   id          String    @id @default(cuid())
-  isValidLink Boolean
   isArticle   Boolean
-  img         String    // Link to an image
-  title       String
-  link        String
-  domain      String
+  image       String?    // Link to an image
+  title       String?
+  author      String?
+  url         String
+  domain      String?
+  description String?
+  logo        String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   user        User      @relation(fields: [userId], references: [id])
