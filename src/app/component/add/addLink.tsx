@@ -28,10 +28,18 @@ export function AddLink({ session }: { session: Session | null }) {
     router.refresh();
 
     // remove localhost variable
-    const data = await fetch("http://localhost:3000/api/add");
-    const res = data.json();
-    console.log(res);
-    alert(res);
+    const body = {
+      url: link,
+    };
+    try {
+      const data = await fetch("http://localhost:3000/api/add", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      const res = data.json();
+    } catch (err) {
+      alert("Failed to save");
+    }
   };
 
   const updateInputValue = (value: string) => {
