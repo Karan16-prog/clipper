@@ -1,32 +1,26 @@
 "use client";
-import { useState } from "react";
-import { InputField } from "../inputField/inputField";
-import Plus from "@/app/icon/plus";
-import styles from "./addLink.module.css";
-import { useRef } from "react";
+import { Add, FormClose } from "grommet-icons";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
-import { FormClose } from "grommet-icons";
-import { Add } from "grommet-icons";
-import CustomTooltip from "../tooltip/tooltip";
+import { useState } from "react";
 import { SignOutBtn } from "../button/button";
+import { InputField } from "../inputField/inputField";
+import CustomTooltip from "../tooltip/tooltip";
+import styles from "./addLink.module.css";
 
 export function AddLink({ session }: { session: Session | null }) {
   const [toggle, setToggle] = useState(false);
-
   const [link, setLink] = useState("");
   const router = useRouter();
-
-  const inputRef = useRef<HTMLInputElement>(null);
-
   const handleToggle = () => {
     setToggle(!toggle);
   };
 
+  const [loading, setLoading] = useState(false);
+
   const addLink = async () => {
     handleToggle();
-    router.refresh();
-
+    setLoading(true);
     // remove localhost variable
     const body = {
       url: link,
@@ -35,16 +29,22 @@ export function AddLink({ session }: { session: Session | null }) {
       const data = await fetch("http://localhost:3000/api/add", {
         method: "POST",
         body: JSON.stringify(body),
+        cache: "no-cache",
       });
-      const res = data.json();
+      setLoading(false);
+      location.reload();
     } catch (err) {
-      alert("Failed to save");
+      console.log(err);
+      setLoading(false);
     }
   };
 
   const updateInputValue = (value: string) => {
     setLink(value);
   };
+  if (loading) {
+    return <div>Loading</div>;
+  }
 
   return (
     <>
@@ -59,7 +59,13 @@ export function AddLink({ session }: { session: Session | null }) {
             }}
           >
             <InputField callback={updateInputValue} />
-            <button className={styles.btn} onClick={addLink}>
+            <button
+              className={styles.btn}
+              onClick={() => {
+                handleToggle();
+                addLink();
+              }}
+            >
               Add
             </button>
             <div className={styles.button} onClick={handleToggle}>

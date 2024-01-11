@@ -6,13 +6,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { url } from "inspector";
 
 // const cheerio = require("cheerio");
 
 export async function GET(req: Request, res: Response) {
   const session = await getServerSession(authOptions);
-  if (session?.user) {
+  // console.log("Karan1605", session);
+  if (!session?.user) {
     return NextResponse.json(
       {
         message: "Unauthorized",
@@ -24,10 +24,22 @@ export async function GET(req: Request, res: Response) {
   }
 
   try {
+    // console.log("KARAN16", session?.user?.id);
+    const data = await prisma.article.findMany({
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
+      where: {
+        userId: session?.user?.id,
+      },
+    });
+
     return NextResponse.json(
       {
         message: "OK",
-        cardData,
+        data,
       },
       {
         status: 200,
@@ -77,7 +89,7 @@ export async function POST(req: Request, res: Response) {
     const user = await prisma.user.findUnique({
       where: {
         //  id: session?.user?.id,
-        id: "dummy_id",
+        id: session?.user?.id,
       },
     });
     if (user) {
@@ -181,6 +193,9 @@ const extractArticleInfo = (htmlContent: string, url: string) => {
       : `${urlObject.origin}/${favicon}`;
   }
   // }
+
+  const title = $("title").text().trim();
+  articleInfo.title = articleInfo?.title || title;
 
   return articleInfo;
 };

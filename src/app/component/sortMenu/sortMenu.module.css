@@ -18,11 +18,36 @@
     background-color: var(--background-primary) !important;
     border: none;
     padding: none !important;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
 }
 
+.menuButton{
+    background-color: red;
+}
+
+.menuButton:hover {
+    color: green;
+    cursor: pointer;
+}
+
+.menuButton:hover .sortIcon {
+    stroke: green;
+}
+/* .menuTitle:hover{
+    color: var(--text-hover);
+    stroke: var(--text-hover);
+} */
+/* .menuButton:hover{
+    color: var(--text-hover);
+    stroke: var(--text-hover);
+    
+}
 .menuButton svg:hover{
     stroke: var(--text-hover);
-}
+    color: var(--text-hover);
+} */
 
 .menuItem:hover{
     background-color: var(--text-hover) !important;

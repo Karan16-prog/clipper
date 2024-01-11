@@ -9,7 +9,7 @@ export default function AuthProvider({
   session,
 }: {
   children: React.ReactNode;
-  session: Promise<Session | null>;
+  session: Session | null;
 }) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return <SessionProvider session={session}>{children}</SessionProvider>;
 }

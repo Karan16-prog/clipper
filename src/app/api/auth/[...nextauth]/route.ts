@@ -49,6 +49,7 @@ export const authOptions: NextAuthOptions = {
         //   email: "jsmith@example.com",
         // };
 
+        console.log("THIS WAS CALLED");
         const user = await prisma.user.findUnique({
           where: {
             email: credentials?.email,
@@ -81,7 +82,6 @@ export const authOptions: NextAuthOptions = {
       // console.log("token", token);
       session.user.id = token?.sub ?? user?.id;
 
-      console.log("SESSION", session, token);
       return session;
     },
   },

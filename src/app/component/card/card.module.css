@@ -41,10 +41,13 @@
 .wrapper{
     background-color: var(--background-primary);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
     margin: 0 auto;
     max-width: 1128px;
-    row-gap: 5vh;
+    row-gap: 10vh;
+    column-gap: 114px;
+    flex-wrap: wrap;
 }
 
 
