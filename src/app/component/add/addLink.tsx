@@ -16,12 +16,8 @@ export function AddLink({ session }: { session: Session | null }) {
     setToggle(!toggle);
   };
 
-  const [loading, setLoading] = useState(false);
-
   const addLink = async () => {
     handleToggle();
-    setLoading(true);
-    // remove localhost variable
     const body = {
       url: link,
     };
@@ -31,20 +27,15 @@ export function AddLink({ session }: { session: Session | null }) {
         body: JSON.stringify(body),
         cache: "no-cache",
       });
-      setLoading(false);
-      location.reload();
+      router.refresh();
     } catch (err) {
       console.log(err);
-      setLoading(false);
     }
   };
 
   const updateInputValue = (value: string) => {
     setLink(value);
   };
-  if (loading) {
-    return <div>Loading</div>;
-  }
 
   return (
     <>

@@ -13,7 +13,6 @@ export default function CardWrapper({ cardData }: { cardData: ArticleCard[] }) {
   const [sortedData, setSortedData] = useState(cardData);
 
   const handleSort = (order: "new" | "old") => {
-    console.log("HANDLE SORT CALLED");
     if (order === "new" || !order) {
       setSortedData([
         ...cardData.sort((a, b) => {
@@ -47,11 +46,14 @@ export default function CardWrapper({ cardData }: { cardData: ArticleCard[] }) {
         {sortedData.map((card) => {
           return (
             <div
-              style={{
-                maxWidth: "300px",
-                maxHeight: "400px",
-                justifySelf: "center",
-              }}
+              style={
+                {
+                  // flex: 1,
+                  // maxWidth: "320px",
+                  // maxHeight: "400px",
+                  // justifySelf: "center",
+                }
+              }
               onClick={() => goToPage(card?.url)}
               key={card.id}
             >
