@@ -1,52 +1,44 @@
-"use client";
-import Card from "./card";
-import styles from "./card.module.css";
-import { useState } from "react";
-import { Descend } from "grommet-icons";
 import SortMenu from "../sortMenu/sortMenu";
+import Card, { ArticleCard } from "./card";
+import styles from "./card.module.css";
+import CardParent from "./cardParent";
 
-export default function CardWrapper({ cardData }: { cardData: ICard[] }) {
-  const goToPage = (url: string) => {
-    window.open(url, "_blank")?.focus();
-  };
-
-  const [list, setList] = useState(cardData);
+export default function CardWrapper({
+  cardData,
+  sort,
+}: {
+  sort: "old" | "new";
+  cardData: ArticleCard[];
+}) {
+  if (sort == "old") {
+    cardData.sort((a, b) => {
+      let date1 = new Date(a.createdAt);
+      let date2 = new Date(b.createdAt);
+      return date1.getTime() - date2.getTime();
+    });
+  } else {
+    cardData.sort((a, b) => {
+      let date1 = new Date(a.createdAt);
+      let date2 = new Date(b.createdAt);
+      return date2.getTime() - date1.getTime();
+    });
+  }
 
   return (
     <>
       <div className={styles.wrapperHeader}>
         <h2>Saved Bookmarks</h2>
-        {/* <div className={styles.sortBtn} role="button">
-          <Descend color="var(--text-primary)" />
-        </div> */}
-
         <SortMenu />
       </div>
       <div className={styles.wrapper}>
         {cardData.map((card) => {
           return (
-            <div
-              style={{
-                maxWidth: "300px",
-                maxHeight: "300px",
-                justifySelf: "center",
-              }}
-              onClick={() => goToPage(card.link)}
-              key={card.id}
-            >
+            <CardParent key={card?.id} url={card?.url}>
               <Card {...card} />
-            </div>
+            </CardParent>
           );
         })}
       </div>
     </>
   );
-}
-
-export interface ICard {
-  title: string;
-  image: string;
-  // description: string;
-  link: string;
-  id: number;
 }

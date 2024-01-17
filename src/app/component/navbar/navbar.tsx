@@ -12,7 +12,7 @@ export default async function NavBar() {
         <nav>
           <div style={{ padding: "16px 0px 16px 0px" }}>
             {/* logo */}
-            <p style={{ fontSize: "28px", margin: "0px" }}>Cluster</p>
+            <p style={{ fontSize: "28px", margin: "0px" }}>Clipper</p>
           </div>
 
           <div

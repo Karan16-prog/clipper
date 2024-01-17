@@ -1,4 +1,3 @@
-import { cardData } from "@/app/mock/mockCard";
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import { Prisma } from "@prisma/client";
@@ -6,13 +5,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { url } from "inspector";
-
-// const cheerio = require("cheerio");
 
 export async function GET(req: Request, res: Response) {
   const session = await getServerSession(authOptions);
-  if (session?.user) {
+  if (!session?.user) {
     return NextResponse.json(
       {
         message: "Unauthorized",
@@ -24,10 +20,21 @@ export async function GET(req: Request, res: Response) {
   }
 
   try {
+    const data = await prisma.article.findMany({
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
+      where: {
+        userId: session?.user?.id,
+      },
+    });
+
     return NextResponse.json(
       {
         message: "OK",
-        cardData,
+        data,
       },
       {
         status: 200,
@@ -44,19 +51,6 @@ export async function GET(req: Request, res: Response) {
       }
     );
   }
-}
-
-interface ArticleInfo {
-  isArticle: boolean;
-  domain?: string;
-  title?: string;
-  author?: string;
-  description?: string;
-  image?: string;
-  logo?: string;
-  url: string;
-
-  // [key: string]: string | boolean | undefined;
 }
 
 export async function POST(req: Request, res: Response) {
@@ -77,12 +71,30 @@ export async function POST(req: Request, res: Response) {
     const user = await prisma.user.findUnique({
       where: {
         //  id: session?.user?.id,
-        id: "dummy_id",
+        id: session?.user?.id,
       },
     });
     if (user) {
       // console.log(user);
       const { url } = await req.json();
+
+      const existingArticle = await prisma.article.findFirst({
+        where: {
+          url: url,
+        },
+      });
+
+      if (existingArticle) {
+        return NextResponse.json(
+          {
+            message: "URL already exists in the database",
+          },
+          {
+            status: 400,
+          }
+        );
+      }
+
       const htmlContent = await fetchWebContent(url);
 
       if (!htmlContent) {
@@ -182,6 +194,9 @@ const extractArticleInfo = (htmlContent: string, url: string) => {
   }
   // }
 
+  const title = $("title").text().trim();
+  articleInfo.title = articleInfo?.title || title;
+
   return articleInfo;
 };
 
@@ -212,45 +227,13 @@ interface metaProtocol {
   field: "title" | "author" | "description" | "image";
 }
 
-// 1. Prisma client - done
-// 2. null data in db - tbd
-// 3. check if it is a link or not - pending
-// 4. what is updatedAt - done
-// 5. is it article? -
-// 6. Fetch any image or display random
-// 7.
-
-// 1. How to run the API in postman - Server c anookies - This is for future Karan
-// 2. How to make a web crawler that crawls the given url
-// 3. When fetching articles :-
-
-// 4 .Use Cheerio?
-
-// What to need after scraping?
-// 1. isArticle
-// 2. If NOt article, just get domain name + link + image (logo)
-// 3. Determine if it is an aritcle :-
-// 4. if article
-// 1. get title
-// 2. get image in article
-// 3. Phase 2 :- Open article within domain
-//               Highlight feature
-// 4. Phase 3 :- Recommend articles (algorithm)
-// 5. Phase 4 :-
-
-// clqkzvh7j0000xwwxtlgm6cn4
-
-// meta content article => isArticle
-// need to learn semantic html
-//
-
-// IF Article
-// 1. Article title
-// 2. Article Image
-// 3. Article URL - already have it
-// 4. Article Author
-// 5.
-
-// IF NOT Article
-// 1. Website logo if possible
-// 2. Website domain - already have it
+interface ArticleInfo {
+  isArticle: boolean;
+  domain?: string;
+  title?: string;
+  author?: string;
+  description?: string;
+  image?: string;
+  logo?: string;
+  url: string;
+}
