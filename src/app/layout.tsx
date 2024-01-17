@@ -5,6 +5,7 @@ import NavBar from "./component/navbar/navbar";
 import AuthProvider from "./AuthProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default async function RootLayout({
         <body className={roboto.className}>
           <NavBar />
           <div style={{ height: "70px" }}></div>
+          <Toaster position="bottom-center" />
           {children}
         </body>
       </html>

@@ -1,27 +1,43 @@
 "use client";
 
-import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
-import { Sort, Descend, Ascend } from "grommet-icons";
+import { Menu, MenuButton, MenuItem } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
+import { Ascend, Descend } from "grommet-icons";
+import { useState } from "react";
 import styles from "./sortMenu.module.css";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 
-export default function SortMenu({
-  handleSort,
-}: {
-  handleSort: (order: "new" | "old") => void;
-}) {
+export default function SortMenu() {
   const [selected, setSelected] = useState<"new" | "old">("new");
 
-  // useEffect(() => {
-  //   console.log(selected);
-  // }, [selected]);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  const handleSort = (order: "new" | "old") => {
+    if (order === "new" || !order) {
+      router.push(pathname + "?" + createQueryString("sort", "new"));
+    } else {
+      router.push(pathname + "?" + createQueryString("sort", "old"));
+    }
+  };
+
   return (
     <>
       <Menu
         menuClassName={styles.menuClass}
         onItemClick={(e) => {
-          console.log(`[Menu] ${e} clicked`);
           setSelected(e.value);
           handleSort(e.value);
         }}

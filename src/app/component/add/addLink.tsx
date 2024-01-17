@@ -2,16 +2,20 @@
 import { Add, FormClose } from "grommet-icons";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { SignOutBtn } from "../button/button";
 import { InputField } from "../inputField/inputField";
 import CustomTooltip from "../tooltip/tooltip";
 import styles from "./addLink.module.css";
+import toast from "react-hot-toast";
 
 export function AddLink({ session }: { session: Session | null }) {
   const [toggle, setToggle] = useState(false);
   const [link, setLink] = useState("");
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [isFetching, setIsFetching] = useState(false);
+
   const handleToggle = () => {
     setToggle(!toggle);
   };
@@ -22,14 +26,22 @@ export function AddLink({ session }: { session: Session | null }) {
       url: link,
     };
     try {
+      setIsFetching(true);
       const data = await fetch("http://localhost:3000/api/add", {
         method: "POST",
         body: JSON.stringify(body),
         cache: "no-cache",
       });
-      router.refresh();
+      setIsFetching(false);
+
+      startTransition(() => {
+        router.replace("/");
+      });
+      toast.success("Article added successfully!");
     } catch (err) {
       console.log(err);
+      toast.error("Oops! 💀");
+      setIsFetching(false);
     }
   };
 

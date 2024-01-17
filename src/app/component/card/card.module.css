@@ -9,10 +9,13 @@
     height: 100%;
     background-color: var(--card-background);
     padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .cardContent{
     padding: 15px;
+    flex-grow: 1;
 }
 
 .cardFooter{
@@ -21,6 +24,7 @@
     align-items: center;
     padding-left: 15px;
     padding-right: 15px;
+    margin-bottom: 5px;
     /* padding-bottom: 25px; */
     /* padding-bottom: 25px; */
 }
