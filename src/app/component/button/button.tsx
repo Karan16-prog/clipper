@@ -9,3 +9,18 @@ export function SignOutBtn() {
     </button>
   );
 }
+
+// export function DeleteBtn() {
+//   return (
+//     <>
+//       <button id="showNumber">Show me</button>
+
+//       <dialog id="delteArticle">
+//         <form method="dialog">
+//           <p>Do you want to delete this article?</p>
+//           <button>Close dialog</button>
+//         </form>
+//       </dialog>
+//     </>
+//   );
+// }
