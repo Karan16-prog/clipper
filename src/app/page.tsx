@@ -28,7 +28,7 @@ export default async function Home({
   );
 }
 
-export const getCardData = async () => {
+const getCardData = async () => {
   try {
     const res = await fetch("http://localhost:3000/api/add/", {
       headers: headers(),
