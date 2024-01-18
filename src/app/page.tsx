@@ -6,6 +6,8 @@ import styles from "./page.module.css";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { authOptions } from "@/AuthOptions";
+import { prisma } from "@/app/lib/prisma";
+import { ArticleCard } from "./component/card/card";
 
 export default async function Home({
   searchParams,
@@ -13,10 +15,22 @@ export default async function Home({
   searchParams: { [key: string]: "old" | "new" };
 }) {
   const session = await getServerSession(authOptions);
+  let data: ArticleCard[] = [];
   if (!session) {
     redirect("/api/auth/signin");
+  } else {
+    data = (await prisma.article.findMany({
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
+      where: {
+        userId: session?.user?.id,
+      },
+    })) as ArticleCard[];
   }
-  const { message, data } = await getCardData();
+  // const { message, data } = await getCardData();
 
   return (
     <>
@@ -27,17 +41,3 @@ export default async function Home({
     </>
   );
 }
-
-const getCardData = async () => {
-  try {
-    const res = await fetch("http://localhost:3000/api/add/", {
-      headers: headers(),
-      cache: "no-cache",
-      next: { revalidate: 10 },
-    });
-    revalidatePath("/");
-    return res.json();
-  } catch (err) {
-    throw new Error("Failed to fetch data");
-  }
-};
