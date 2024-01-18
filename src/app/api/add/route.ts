@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { authOptions } from "@/AuthOptions";
 
 export async function GET(req: Request, res: Response) {
   const session = await getServerSession(authOptions);

@@ -4,8 +4,8 @@ import "./globals.css";
 import NavBar from "./component/navbar/navbar";
 import AuthProvider from "./AuthProvider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import { Toaster } from "react-hot-toast";
+import { authOptions } from "@/AuthOptions";
 
 const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
