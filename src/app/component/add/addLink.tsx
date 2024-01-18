@@ -27,7 +27,7 @@ export function AddLink({ session }: { session: Session | null }) {
     };
     try {
       setIsFetching(true);
-      const data = await fetch("http://localhost:3000/api/add", {
+      const data = await fetch("https://clipper-nine.vercel.app/api/add", {
         method: "POST",
         body: JSON.stringify(body),
         cache: "no-cache",
