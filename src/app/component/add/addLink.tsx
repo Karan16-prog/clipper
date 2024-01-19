@@ -8,6 +8,7 @@ import { InputField } from "../inputField/inputField";
 import CustomTooltip from "../tooltip/tooltip";
 import styles from "./addLink.module.css";
 import toast from "react-hot-toast";
+import { ADD_ARTICLE_ENDPOINT } from "@/app/apiConfig";
 
 export function AddLink({ session }: { session: Session | null }) {
   const [toggle, setToggle] = useState(false);
@@ -27,7 +28,7 @@ export function AddLink({ session }: { session: Session | null }) {
     };
     try {
       setIsFetching(true);
-      const data = await fetch("https://clipper-nine.vercel.app/api/add", {
+      const data = await fetch(ADD_ARTICLE_ENDPOINT, {
         method: "POST",
         body: JSON.stringify(body),
         cache: "no-cache",

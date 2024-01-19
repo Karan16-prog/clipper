@@ -81,6 +81,7 @@ export async function POST(req: Request, res: Response) {
       const existingArticle = await prisma.article.findFirst({
         where: {
           url: url,
+          userId: session?.user?.id,
         },
       });
 
