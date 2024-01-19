@@ -1,6 +1,6 @@
 ## Clipper
 
-A fullstackk application used to save articles and access it from any device. It parses and scrapes the article's metadata and saves them in a card format with their title, image and domain.
+A fullstack application used to save articles and access it from any device. It parses and scrapes the article's metadata and saves them in a card format with their title, image and domain.
 Built using Next, Prisma ORM, Postgresql, Next Auth & Typescript.
 
 Hosted Link :- https://clipper-nine.vercel.app/
@@ -11,7 +11,7 @@ Hosted Link :- https://clipper-nine.vercel.app/
 This project is currently in development.
   1. Mobile responsiveness
   2. iOS & Android apps
-  3. Bug fixes
+  3. Bug/Issue fixes
   4. Empty states
   5. Opening the article within the page
 
