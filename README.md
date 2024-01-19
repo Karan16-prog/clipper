@@ -51,7 +51,7 @@ This project's goals included learning the app router introduced in NEXT 13/14, 
 a website using Javascript/Typescript.
 
 One of the main challenges I ran into was how to determine if a url points to an article or not.
-For eg [medium](https://medium.com/) is not an article but  [`Stop using localstorage`](https://medium.com/@julienetienne/stop-using-localstorage-64a6d6805da8) is an article.
+For eg [medium](https://medium.com/) is not an article but  [Stop using localstorage](https://medium.com/@julienetienne/stop-using-localstorage-64a6d6805da8) is an article.
 If url is not an article, the app just saves the url and scrapes for the website logo.
 If url is an article, the app scrapes the title of the article, the main image if present in the article, and the author of the article.
 
