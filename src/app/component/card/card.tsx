@@ -11,7 +11,7 @@ export default function Card(props: ArticleCard) {
     <div className={styles.cardContainer}>
       <div className={styles.cardHeader}>
         <div>
-          {props?.image?.length ? (
+          {props?.image?.length && props?.image[0] !== "/" ? (
             <img
               alt="Article Image"
               src={props?.image}
